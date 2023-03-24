@@ -17,6 +17,7 @@ PeasyCam cam;
 PShape shape;
 PVector[][] vertices;
 int res;
+float gain;
 
 
 void setup() {
@@ -24,6 +25,7 @@ void setup() {
   oldLow = 0;
   sensitivity = 500;
   offset = 5;
+  gain = 1.0;
   
   cam = new PeasyCam(this, width/2, height/2, -20, 500);
   
@@ -48,8 +50,6 @@ void setup() {
   in.start();
   fft.input(in);
   
-  
-  float r = 100;
   res = 40;
   vertices = new PVector[res+1][res+1];
   for (int i = 0; i < res+1; i++) {
@@ -61,9 +61,7 @@ void setup() {
       float z = cos(lat);
       vertices[i][j] = new PVector(x, y, z);
     } 
-  }
-  
-  
+  } 
 }
 
 void draw() {
@@ -92,13 +90,13 @@ void draw() {
   mid = mid*30;
   high = high/(bands - midBands) * 100;
   high = high * 30;
-  ambientLight(100 * high, 100 * high, 100 * high);
+  ambientLight(50 * high, 50 * high, 50 * high);
   //ambientLight(0, 0, 0);
   translate(width/2, height/2, -20);
   rotateY(time);
   rotateX(HALF_PI);
-  stroke(255, 0, 0);
-  fill(255, 0, 0);
+  stroke(255, mid*30, high*200);
+  fill(255, mid*30, high*200);
   drawBeat(low, 50, mid);
   //sphere(low);
   stroke(10 * mid);
